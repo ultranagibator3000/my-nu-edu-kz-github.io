@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My account</title>
+<style>
+:root{
+  --bg:#fff; --text:#2b2b2b; --muted:#555; --teal:#3594a3; --navy:#0b4060; --soft:#58b6c6;
+  --link:#1b8cc0; --brown:#7f5a3d; --line:#d9d9d9; --orn:#e3e3e3; --card:#fff;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#14181b;--text:#e8e8e8;--muted:#b5b5b5;--line:#3a4247;--orn:#2a3135;--card:#1a1f22;--link:#5bb8e6}
+}
+:root[data-theme="dark"]{--bg:#14181b;--text:#e8e8e8;--muted:#b5b5b5;--line:#3a4247;--orn:#2a3135;--card:#1a1f22;--link:#5bb8e6}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Open Sans","Segoe UI",Helvetica,Arial,sans-serif;max-width:600px;margin-inline:auto;overflow-x:hidden}
+.topbar{height:52px;background:var(--brown)}
+.brand{display:flex;justify-content:center;align-items:center;gap:12px;padding:38px 16px 0}
+.logo{border:1.5px dashed var(--teal);background:transparent;color:var(--muted);font:14px "Open Sans","Segoe UI",Arial,sans-serif;min-width:200px;max-width:100%;height:64px;padding:0 16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.logo img{display:none;max-height:64px;max-width:100%;object-fit:contain}
+.logo.has{border:0;padding:0;height:auto;min-width:0}
+.logo.has img{display:block}.logo.has .lph{display:none}
+.logo:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+.user{display:flex;justify-content:center;margin-top:64px}
+.user div{width:245px;height:48px;border:1px solid var(--teal);display:flex;align-items:center;justify-content:center;gap:14px;font-size:16px}
+.logout{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:32px;font-size:16px;color:var(--text)}
+.orn{height:28px;margin-top:36px;background-color:var(--bg);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='28'><g fill='none' stroke='%23d4d4d4' stroke-width='3'><path d='M6 20c0-8 10-12 14-5s-8 8-8 2 7-6 7-1'/><path d='M50 20c0-8-10-12-14-5s8 8 8 2-7-6-7-1'/></g></svg>");background-repeat:repeat-x;background-position:center}
+.menu{background:var(--teal);color:#fff;height:54px;display:flex;align-items:center;gap:16px;padding:0 24px;font-size:22px;letter-spacing:.01em;border:0;width:100%;font-family:inherit;text-align:left}
+.burger{width:30px;height:22px;background:linear-gradient(#fff 0 4px,transparent 4px 9px,#fff 9px 13px,transparent 13px 18px,#fff 18px 22px)}
+.crumb{padding:26px 20px 20px;font-size:18px;color:var(--text)}
+.profile{background:var(--navy);margin:0 20px;padding:36px 16px 22px;text-align:center;color:#fff}
+.profile input.nm{display:block;width:100%;background:transparent;border:0;border-bottom:1px dashed transparent;color:#fff;font:700 21px "Open Sans","Segoe UI",Arial,sans-serif;text-align:center;padding:4px 0;outline:0}
+.profile input.id{display:block;width:100%;background:transparent;border:0;border-bottom:1px dashed transparent;color:var(--soft);font:700 18px "Open Sans","Segoe UI",Arial,sans-serif;text-align:center;padding:4px 0;margin-top:24px;outline:0}
+.profile input:focus,.profile input:hover{border-bottom-color:#ffffff66}
+.photo{display:block;margin:34px auto 28px;width:147px;height:195px;background:#fff;border:0;padding:0;cursor:pointer;position:relative;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:none}
+.photo .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#666;font-size:14px;background:#f1f1f1}
+.photo:focus-visible,.profile input:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.photo .chg{position:absolute;left:0;right:0;bottom:0;background:#000a;color:#fff;font-size:12px;padding:5px 0;display:none}
+.photo.has img{display:block}.photo.has .ph{display:none}.photo.has:hover .chg,.photo.has:focus-visible .chg{display:block}
+.plink{display:block;color:var(--soft);font-size:18px;line-height:1.4;text-decoration:none}
+.tabs{margin:62px 24px 0;border:1px solid var(--line);border-bottom:8px solid var(--teal);display:flex;background:var(--card)}
+.tab{flex:1;border:0;background:var(--card);color:var(--text);font:400 18px "Open Sans","Segoe UI",Arial,sans-serif;text-transform:uppercase;padding:21px 0 21px 22px;text-align:left;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--teal);color:#fff;margin:-0px}
+.panel{margin:26px 26px 0}
+.sec{border:1px solid var(--line);background:var(--card);margin-bottom:12px;padding:26px 38px 22px}
+.sec button.h{display:flex;width:100%;justify-content:space-between;align-items:center;border:0;background:transparent;color:var(--text);font:400 26px "Open Sans","Segoe UI",Arial,sans-serif;text-transform:uppercase;padding:0;cursor:pointer;text-align:left}
+.sec .ic{width:34px;height:34px;border:1.5px solid var(--text);border-radius:50%;position:relative;flex:none}
+.sec .ic::before,.sec .ic::after{content:"";position:absolute;left:8px;right:8px;top:15.5px;height:2px;background:var(--text)}
+.sec .ic::after{transform:rotate(90deg);transition:transform .2s}
+.sec.open .ic::after{transform:rotate(0)}
+.rule{width:73px;height:3px;background:var(--teal);margin:14px 0 22px}
+.sec ul{list-style:none;margin:0;padding:0;display:none}
+.sec.open ul{display:block}
+.sec.open .rule{display:block}
+.sec:not(.open) .rule{display:none}
+.sec li a{display:block;color:var(--link);font-size:18px;padding:5px 0;text-decoration:none}
+.sec li a:hover{text-decoration:underline}
+.foot{height:90px}
+.empty{color:var(--muted);font-size:16px;padding:22px 0 8px}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="brand"><button class="logo" id="logoBtn" type="button" aria-label="Choose logo"><img id="logoImg" alt="Logo"><span class="lph">Choose logo</span></button><input type="file" id="logoFile" accept="image/*" hidden></div>
+<div class="user"><div>Student <span aria-hidden="true">⌄</span></div></div>
+<div class="logout">Log Out <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3594a3" stroke-width="2.6" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/></svg></div>
+<div class="orn" aria-hidden="true"></div>
+<button class="menu" type="button"><span class="burger" aria-hidden="true"></span>MENU</button>
+<div class="crumb">&gt; My account</div>
+
+<section class="profile">
+  <input class="nm" id="name" value="Name Surname" aria-label="Name and surname" spellcheck="false" autocomplete="off">
+  <input class="id" id="sid" value="ID:000000000" aria-label="Student ID" inputmode="numeric" autocomplete="off">
+  <button class="photo" id="photoBtn" type="button" aria-label="Choose photo">
+    <img id="photoImg" alt="Student photo">
+    <span class="ph"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6"><circle cx="12" cy="9" r="4"/><path d="M4 21c1-5 5-7 8-7s7 2 8 7"/></svg>Choose photo</span>
+    <span class="chg">Change photo</span>
+  </button>
+  <input type="file" id="file" accept="image/*" hidden>
+  <a class="plink" href="#">Accession services agreement</a>
+  <a class="plink" href="#">My account using regulation</a>
+</section>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" id="t1" aria-selected="true">Make a payment</button>
+  <button class="tab" role="tab" id="t2" aria-selected="false">My payments</button>
+</div>
+
+<div class="panel" id="p1" role="tabpanel">
+  <div class="sec open">
+    <button class="h" type="button" aria-expanded="true">Sports <span class="ic"></span></button>
+    <div class="rule"></div>
+    <ul>
+      <li><a href="#">Multi-visit pass</a></li>
+      <li><a href="#">All access pass 3m</a></li>
+      <li><a href="#">All access pass 6m</a></li>
+    </ul>
+  </div>
+  <div class="sec open">
+    <button class="h" type="button" aria-expanded="true">Other <span class="ic"></span></button>
+    <div class="rule"></div>
+    <ul>
+      <li><a href="#">Add your payment items here</a></li>
+    </ul>
+  </div>
+</div>
+<div class="panel" id="p2" role="tabpanel" hidden>
+  <div class="sec open"><div class="empty">No payments yet.</div></div>
+</div>
+<div class="foot"></div>
+
+<script>
+(function(){
+  var KEY_OK=true;
+  function get(k){try{return localStorage.getItem(k)}catch(e){KEY_OK=false;return null}}
+  function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  var name=document.getElementById('name'),sid=document.getElementById('sid');
+  var btn=document.getElementById('photoBtn'),file=document.getElementById('file'),img=document.getElementById('photoImg');
+  [[name,'sa_name'],[sid,'sa_id']].forEach(function(p){
+    var v=get(p[1]); if(v) p[0].value=v;
+    p[0].addEventListener('input',function(){set(p[1],p[0].value)});
+  });
+  btn.addEventListener('click',function(){file.click()});
+  file.addEventListener('change',function(){
+    var f=file.files&&file.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){img.src=r.result;btn.classList.add('has')};
+    r.readAsDataURL(f);
+  });
+  var lBtn=document.getElementById('logoBtn'),lFile=document.getElementById('logoFile'),lImg=document.getElementById('logoImg');
+  lBtn.addEventListener('click',function(){lFile.click()});
+  lFile.addEventListener('change',function(){
+    var f=lFile.files&&lFile.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){lImg.src=r.result;lBtn.classList.add('has')};
+    r.readAsDataURL(f);
+  });
+  document.querySelectorAll('.sec button.h').forEach(function(b){
+    b.addEventListener('click',function(){
+      var s=b.parentNode,o=s.classList.toggle('open');b.setAttribute('aria-expanded',o);
+    });
+  });
+  var t1=document.getElementById('t1'),t2=document.getElementById('t2'),p1=document.getElementById('p1'),p2=document.getElementById('p2');
+  function tab(a){
+    t1.setAttribute('aria-selected',a===1);t2.setAttribute('aria-selected',a===2);
+    p1.hidden=a!==1;p2.hidden=a!==2;
+  }
+  t1.addEventListener('click',function(){tab(1)});
+  t2.addEventListener('click',function(){tab(2)});
+})();
+</script>
+</body>
+</html>
